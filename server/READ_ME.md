@@ -1,0 +1,346 @@
+Absolutely. Copy **everything inside this single block** directly into your `README.md`:
+
+````md
+# Survey App
+
+A full-stack survey application built as part of the Waterlily technical take-home assessment.
+
+The application allows users to create an account, log in, complete a survey, and submit their responses.
+
+## Tech Stack
+
+- React
+- TypeScript
+- Vite
+- Node.js
+- Express
+- Prisma ORM
+- SQLite
+- JWT Authentication
+
+## Project Structure
+
+```text
+survey-app/
+├── client/          # React frontend
+├── server/          # Express backend
+├── README.md
+└── ADDITIONAL_NOTES.md
+````
+
+## Prerequisites
+
+Before running the application, make sure you have:
+
+* Node.js 18+
+* npm
+
+You can verify your installation with:
+
+```bash
+node --version
+npm --version
+```
+
+# Getting Started
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/vishnun95/waterlily-survey
+cd waterlily-survey
+```
+
+# Backend Setup
+
+Open a terminal and navigate to the backend:
+
+```bash
+cd server
+```
+
+Install the dependencies:
+
+```bash
+npm install
+```
+
+## Environment Variables
+
+Create a `.env` file inside the `server` directory:
+
+```env
+DATABASE_URL="file:./dev.db"
+JWT_SECRET="your-secret-key"
+PORT=5000
+```
+
+### Environment Variable Description
+
+| Variable       | Description                        |
+| -------------- | ---------------------------------- |
+| `DATABASE_URL` | SQLite database connection         |
+| `JWT_SECRET`   | Secret used for JWT authentication |
+| `PORT`         | Port used by the backend server    |
+
+> For local development, the values above are sufficient. For production, sensitive values such as `JWT_SECRET` should be managed securely.
+
+## 2. Generate Prisma Client
+
+Run:
+
+```bash
+npx prisma generate
+```
+
+## 3. Run Database Migration
+
+Create and apply the database migration:
+
+```bash
+npx prisma migrate dev
+```
+
+This will create the local SQLite database based on the Prisma schema.
+
+## 4. Seed the Database
+
+The application includes seed data for the survey and its questions.
+
+Run:
+
+```bash
+npx ts-node prisma/seed.ts
+```
+
+If the project has a Prisma seed script configured in `package.json`, you can alternatively use:
+
+```bash
+npx prisma db seed
+```
+
+## 5. Start the Backend
+
+Run:
+
+```bash
+npm run dev
+```
+
+The backend will start on:
+
+```text
+http://localhost:5000
+```
+
+# Frontend Setup
+
+Open a new terminal and navigate to the frontend:
+
+```bash
+cd client
+```
+
+Install the dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+The frontend will normally be available at:
+
+```text
+http://localhost:5173
+```
+
+The exact URL will also be displayed in the terminal after starting Vite.
+
+# Application Flow
+
+The main user flow is:
+
+```text
+Sign Up
+   ↓
+Login
+   ↓
+Survey
+   ↓
+Answer Questions
+   ↓
+Submit Survey
+```
+
+## 1. Sign Up
+
+A new user can create an account by providing:
+
+* Name
+* Email
+* Password
+* Password confirmation
+
+## 2. Login
+
+Registered users can log in using their email and password.
+
+After successful authentication, the user can access the protected survey functionality.
+
+## 3. Complete the Survey
+
+The authenticated user can view the available survey questions and provide their answers.
+
+## 4. Submit the Survey
+
+Once the survey is completed, the responses are submitted to the backend and stored in the database.
+
+# Authentication
+
+The application uses JWT-based authentication.
+
+After a successful login, the authentication token is stored in a cookie and is used to authenticate subsequent requests.
+
+Protected backend routes use authentication middleware to verify the user's session before allowing access.
+
+Authorization is enforced on the backend rather than relying only on frontend route protection.
+
+# Database
+
+The application uses Prisma ORM with SQLite for local development.
+
+The database contains the core entities required for the survey flow, including:
+
+* Users
+* Surveys
+* Questions
+* Survey Responses
+* Answers
+
+The Prisma schema defines the relationships between these entities.
+
+# API
+
+The backend exposes APIs for the main application functionality.
+
+## Authentication
+
+```text
+POST /auth/signup
+POST /auth/login
+POST /auth/logout
+```
+
+## Survey
+
+```text
+GET /surveys
+GET /surveys/:id
+```
+
+## Responses
+
+```text
+POST /surveys/:id/responses
+```
+
+> The exact API paths may vary depending on the implementation in the repository.
+
+# Development
+
+For local development, run the frontend and backend in separate terminals.
+
+## Terminal 1 — Backend
+
+```bash
+cd server
+npm run dev
+```
+
+## Terminal 2 — Frontend
+
+```bash
+cd client
+npm run dev
+```
+
+Then open the frontend URL shown by Vite.
+
+# Building for Production
+
+## Frontend
+
+From the `client` directory:
+
+```bash
+npm run build
+```
+
+The production build will be generated by Vite.
+
+## Backend
+
+From the `server` directory:
+
+```bash
+npm run build
+```
+
+Start the production server using the project's configured start command.
+
+# Testing
+
+Automated tests are not currently included as part of this take-home implementation.
+
+The main user flow can be tested manually:
+
+1. Create a new account.
+2. Log in.
+3. Access the survey.
+4. Answer the questions.
+5. Submit the survey.
+6. Verify that the response is successfully stored.
+
+# Additional Notes
+
+Additional information about the implementation, design decisions, trade-offs, and potential improvements can be found in:
+
+`ADDITIONAL_NOTES.md`
+
+# Future Improvements
+
+If this application were developed further for production use, I would consider:
+
+* Adding unit and integration tests.
+* Adding more comprehensive frontend and backend validation.
+* Improving error handling and API responses.
+* Adding structured application logging.
+* Adding rate limiting to authentication endpoints.
+* Improving accessibility.
+* Adding survey progress tracking.
+* Allowing users to resume incomplete Survey.
+* Adding CI/CD.
+* Adding production-level database and secret management.
+* Improving monitoring and error reporting.
+
+# Notes for Reviewers
+
+The implementation intentionally keeps the architecture relatively simple for the scope of the Survey.
+
+The main focus was on:
+
+* Working end-to-end functionality.
+* Clear separation between frontend and backend.
+* Type safety with TypeScript.
+* Database management using Prisma.
+* Secure authentication flow.
+* Maintainable and readable code.
+* Avoiding unnecessary complexity.
+
+Thank you for taking the time to review the application.
+
